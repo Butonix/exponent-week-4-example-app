@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { View, Text, TouchableOpacity,
-         StyleSheet } from 'react-native';
+         StyleSheet, ActionSheetIOS } from 'react-native';
 import { withNavigation } from '@exponent/ex-navigation';
 import Image from 'react-native-image-progress';
 import { Ionicons } from '@exponent/vector-icons';
@@ -13,6 +13,20 @@ class PhotoHeader extends React.Component {
     super(props);
 
     this.goToMap = this.goToMap.bind(this);
+  }
+
+  openShareOptions() {
+    ActionSheetIOS.showShareActionSheetWithOptions({
+      url: 'https://rmotr.com',
+      subject: 'Learn to code in a remote classroom',
+      message: 'Real teacher, real classmates, real assignments, but remote.'
+    },
+    error => alert(error),
+    (success, method) => {
+      if (success) {
+        alert(`Shared via ${method}`);
+      }
+    });
   }
 
   goToMap() {
@@ -49,15 +63,12 @@ class PhotoHeader extends React.Component {
           </View>
         </View>
 
-        <View style={styles.headerRight}>
-          <TouchableOpacity>
-            <Ionicons
-              name="ios-more"
-              size={24}
-              color={Colors.rmotrB}
-            />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={this.openShareOptions}>
+          <Ionicons
+            style={styles.shareIcon}
+            name="md-share"
+          />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -96,17 +107,20 @@ const styles = StyleSheet.create({
 
   headerText: {
     color: Colors.rmotrB,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700'
   },
 
   headerLocation: {
-    fontSize: 11,
-    fontWeight: '300'
+    fontSize: 12,
+    fontWeight: '400',
+    marginTop: 2
   },
 
-  headerRight: {
-    marginRight: 10
+  shareIcon: {
+    color: Colors.rmotrB100,
+    fontSize: 18,
+    padding: 10
   }
 });
 

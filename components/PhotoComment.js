@@ -62,13 +62,14 @@ const styles = StyleSheet.create({
 
   commentUser: {
     color: Colors.rmotrB,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700'
   },
 
   commentText: {
-    fontSize: 11,
-    fontWeight: '300'
+    fontSize: 13,
+    fontWeight: '400',
+    marginTop: 2
   },
 
   containerRight: {

@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
 
   likesText: {
     color: Colors.rmotrB,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
     marginLeft: 5
   },
@@ -132,20 +132,20 @@ const styles = StyleSheet.create({
 
   footerText: {
     color: Colors.rmotrB,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700'
   },
 
   photoCaption: {
     color: Colors.rmotrB,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '400',
     paddingLeft: 3
   },
 
   footerHour: {
-    color: '#bbb',
-    fontSize: 9,
+    color: '#AAA',
+    fontSize: 10,
     fontWeight: '400',
     paddingTop: 5
   }

@@ -15,7 +15,8 @@
   },
   "loading": {
     "iconUrl": "https://s13.postimg.org/wflosfalj/logo.png",
-    "backgroundColor": "#EEE",
+    "backgroundImageUrl": "http://i.imgur.com/PoEQxgE.png",
+    "backgroundColor": "#FFF",
     "hideExponentText": true
   },
   "appKey": "main",
