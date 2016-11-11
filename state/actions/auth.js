@@ -1,5 +1,6 @@
 import { AsyncStorage, Alert } from 'react-native';
 import Exponent from 'exponent';
+import pushNotifications from '../../api/pushNotifications';
 import googleConfig from '../../constants/Google';
 import facebookConfig from '../../constants/Facebook';
 import * as actionTypes from '../actionTypes';
@@ -15,6 +16,8 @@ export const isLoggedIn = () => (dispatch) => {
     const session = JSON.parse(response);
 
     if (session) {
+      pushNotifications.registerForPushNotifications();
+
       dispatch({
         type: actionTypes.CHECK_LOGIN_SUCCESS,
         loggedIn: true,
@@ -64,6 +67,8 @@ export const loginGoogle = () => (dispatch) => {
       // Save session
       AsyncStorage.setItem('session', JSON.stringify(session))
       .then(() => {
+        pushNotifications.registerForPushNotifications();
+
         dispatch({
           type: actionTypes.LOGIN_GOOGLE_SUCCESS,
           loggedIn: true,
@@ -127,6 +132,8 @@ export const loginFacebook = () => (dispatch) => {
         // Save session
         AsyncStorage.setItem('session', JSON.stringify(session))
         .then(() => {
+          pushNotifications.registerForPushNotifications();
+
           dispatch({
             type: actionTypes.LOGIN_FACEBOOK_SUCCESS,
             loggedIn: true,

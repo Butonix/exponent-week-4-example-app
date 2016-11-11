@@ -82,7 +82,7 @@ class ProfileScreen extends React.Component {
         <OptionItem
           text={this.state.name ? this.state.name : 'Get my position'}
           icon={'map-marker'}
-          iconColor={Colors.primary}
+          iconColor={Colors.warning}
           onPress={this.getPosition}
           marginBottom={10}
         />

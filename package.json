@@ -6,7 +6,7 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "test": "jest --no-cache"
+    "test": "jest --no-cache --verbose"
   },
   "jest": {
     "preset": "jest-exponent"

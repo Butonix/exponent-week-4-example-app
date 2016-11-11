@@ -3,11 +3,15 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import BillabongText from '../BillabongText';
 
-it('renders correctly', () => {
-  const tree = renderer.create(
+describe('BillabongText', () => {
+  const component = renderer.create(
     <BillabongText>
       Test!
     </BillabongText>
-  ).toJSON();
-  expect(tree).toMatchSnapshot();
+  );
+  const tree = component.toJSON();
+
+  it('renders correctly', () => {
+    expect(tree).toMatchSnapshot();
+  });
 });

@@ -1,6 +1,7 @@
 import moment from 'moment';
 import Exponent from 'exponent';
 import { map, includes } from 'lodash';
+import pushNotifications from '../../api/pushNotifications';
 import googleConfig from '../../constants/Google';
 import firebaseApp from '../../constants/Firebase';
 import * as actionTypes from '../actionTypes';
@@ -30,6 +31,8 @@ export const addPhoto = photo => (dispatch, getState) => {
   firebaseRef.child('photos').child(photoObject.id)
   .set(photoObject)
   .then(() => {
+    pushNotifications.photoUploadedPushNotification();
+
     dispatch({
       type: actionTypes.ADD_PHOTO_SUCCESS,
       isUploaded: true,
