@@ -74,7 +74,7 @@ class ProfileScreen extends React.Component {
         <OptionItem
           text={this.state.locale ? `Current locale: ${this.state.locale}` : 'Get device locale'}
           icon={'globe'}
-          iconColor={Colors.success}
+          iconColor={Colors.primary}
           onPress={this.getLocale}
           marginBottom={10}
         />

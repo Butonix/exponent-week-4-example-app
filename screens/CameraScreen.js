@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Vibration } from 'react-native';
 import { connect } from 'react-redux';
 import { SegmentedControls } from 'react-native-radio-buttons';
 import Colors from '../constants/Colors';
@@ -17,6 +17,8 @@ class CameraScreen extends React.Component {
   }
 
   setSelectedOption(selectedOption) {
+    Vibration.vibrate();
+
     this.props.setPhotoSource(selectedOption);
   }
 

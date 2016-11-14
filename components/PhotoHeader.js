@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { View, Text, TouchableOpacity,
-         StyleSheet, ActionSheetIOS } from 'react-native';
+         StyleSheet, Share } from 'react-native';
 import { withNavigation } from '@exponent/ex-navigation';
 import Image from 'react-native-image-progress';
 import { Ionicons } from '@exponent/vector-icons';
@@ -16,16 +16,11 @@ class PhotoHeader extends React.Component {
   }
 
   openShareOptions() {
-    ActionSheetIOS.showShareActionSheetWithOptions({
+    return Share.share({
       url: 'https://rmotr.com',
-      subject: 'Learn to code in a remote classroom',
-      message: 'Real teacher, real classmates, real assignments, but remote.'
-    },
-    error => alert(error),
-    (success, method) => {
-      if (success) {
-        alert(`Shared via ${method}`);
-      }
+      title: 'Learn to code in a remote classroom',
+      message: 'Real teacher, real classmates, real assignments, but remote.',
+      dialogTitle: 'Learn to code in a remote classroom'
     });
   }
 

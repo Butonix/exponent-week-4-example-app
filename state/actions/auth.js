@@ -76,11 +76,6 @@ export const loginGoogle = () => (dispatch) => {
           user: userProfile,
           googleToken: accessToken
         });
-
-        Alert.alert(
-          'Logged in!',
-          `Hi ${userProfile.name}!`
-        );
       }, (err) => {
         dispatch({
           type: actionTypes.LOGIN_GOOGLE_FAILURE,
@@ -141,11 +136,6 @@ export const loginFacebook = () => (dispatch) => {
             user,
             facebookToken: token
           });
-
-          Alert.alert(
-            'Logged in!',
-            `Hi ${dataJson.name}!`
-          );
         }, (err) => {
           dispatch({
             type: actionTypes.LOGIN_FACEBOOK_FAILURE,

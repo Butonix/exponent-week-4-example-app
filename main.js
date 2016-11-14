@@ -1,7 +1,7 @@
-import Exponent from 'exponent';
+import Exponent, { Notifications } from 'exponent';
 import React from 'react';
 import { Platform, StatusBar, StyleSheet,
-         View } from 'react-native';
+         View, Alert, Vibration } from 'react-native';
 import { NavigationContext, NavigationProvider } from '@exponent/ex-navigation';
 import { Provider as ReduxProvider } from 'react-redux';
 import store from './state/store';
@@ -18,6 +18,16 @@ class AppContainer extends React.Component {
 
   componentWillMount() {
     this.loadAssetsAsync();
+    this.notificationSubscription = Notifications.addListener(this.handleNotification);
+  }
+
+  handleNotification(notification) {
+    const message = notification.data.response;
+
+    if (message) {
+      Alert.alert(message, 'this is a push notification');
+      Vibration.vibrate();
+    }
   }
 
   async loadAssetsAsync() {
