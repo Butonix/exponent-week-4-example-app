@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/rmotr/exponent-week-4-example-app/tree/master.svg?style=svg&circle-token=130684cd83ddc69f6f54e71fee9c8d75213e1b57)](https://circleci.com/gh/rmotr/exponent-week-4-example-app/tree/master)
+[![CircleCI](https://circleci.com/gh/rmotr/exponent-week-4-example-app/tree/master.svg?style=svg&circle-token=730ca89e4084036631400969fea19d4606f8ffdd)](https://circleci.com/gh/rmotr/exponent-week-4-example-app/tree/master)
 
 # [mde-w4] Instagram clone
 
