@@ -8,6 +8,10 @@ Today we'll finish our Intagram clone app, adding a component to share photos, a
 
 *comming soon*
 
+![push_notifications](http://i.imgur.com/nsvndsV.jpg)
+
+![social_share](http://i.imgur.com/gnlFsdW.jpg)
+
 ---
 <p align="center">
   <img src="http://i.imgur.com/JEIGdC6.png">
