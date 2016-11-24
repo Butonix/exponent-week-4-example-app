@@ -35,7 +35,6 @@ export const isLoggedIn = () => (dispatch) => {
   });
 };
 
-
 export const loginGoogle = () => (dispatch) => {
   const options = {
     webClientId: googleConfig.clientID,

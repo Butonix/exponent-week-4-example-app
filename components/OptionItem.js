@@ -30,7 +30,6 @@ OptionItem.propTypes = {
 };
 
 const styles = StyleSheet.create({
-
   optionsContainer: {
     flexDirection: 'row',
     alignItems: 'center',

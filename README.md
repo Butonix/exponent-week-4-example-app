@@ -4,6 +4,8 @@
 
 Today we'll finish our Intagram clone app, adding a component to share photos, adding support to receive push notifications to know whether new photos or comments are published, and testing some of our components with Jest tests.
 
+https://exp.host/@test123/course-week-4
+
 ### Social share & Push notifications
 
 *comming soon*
