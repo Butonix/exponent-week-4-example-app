@@ -4,6 +4,7 @@ import { View, Text, TextInput,
 import { connect } from 'react-redux';
 import { Components } from 'exponent';
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 import BillabongText from './BillabongText';
 import { authActions } from '../state/actions';
 
@@ -14,97 +15,99 @@ class LoginForm extends React.Component {
         colors={[Colors.rmotrB100, Colors.rmotrB300]}
         style={styles.container}
       >
-        <View style={styles.titleContainer}>
-          <BillabongText style={styles.title}>
-            Rmotrgram
-          </BillabongText>
-        </View>
-
-        <View style={styles.inputsContainer}>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Email"
-            placeholderTextColor="#DDD"
-            onChangeText={() => {}}
-            value={''}
-            autoCorrect={false}
-          />
-
-          <TextInput
-            style={styles.textInput}
-            placeholder="Password"
-            placeholderTextColor="#DDD"
-            onChangeText={() => {}}
-            value={''}
-            secureTextEntry
-            autoCorrect={false}
-          />
-        </View>
-
-        <View style={styles.mainButtonsContainer}>
-          <TouchableOpacity>
-            <Components.LinearGradient
-              colors={[Colors.success, Colors.success700]}
-              style={styles.mainButton}
-            >
-              <Text style={styles.mainButtonText}>
-                Log In
-              </Text>
-            </Components.LinearGradient>
-          </TouchableOpacity>
-
-          <View style={styles.separatorContainer}>
-            <Text style={styles.separator}>
-              or
-            </Text>
+        <View>
+          <View style={styles.titleContainer}>
+            <BillabongText style={styles.title}>
+              Rmotrgram
+            </BillabongText>
           </View>
 
-          <TouchableOpacity onPress={this.props.loginFacebook}>
-            <Components.LinearGradient
-              colors={[Colors.primary, Colors.primary700]}
-              style={styles.mainButton}
-            >
-              <Text style={styles.mainButtonText}>
-                Log In with Facebook
-              </Text>
-            </Components.LinearGradient>
-          </TouchableOpacity>
+          <View style={styles.inputsContainer}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Email"
+              placeholderTextColor="#DDD"
+              onChangeText={() => {}}
+              value={''}
+              autoCorrect={false}
+            />
 
-          <TouchableOpacity onPress={this.props.loginGoogle}>
-            <Components.LinearGradient
-              colors={[Colors.danger, Colors.danger700]}
-              style={styles.mainButton}
-            >
-              <Text style={styles.mainButtonText}>
-                Log In with Google
-              </Text>
-            </Components.LinearGradient>
-          </TouchableOpacity>
-        </View>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Password"
+              placeholderTextColor="#DDD"
+              onChangeText={() => {}}
+              value={''}
+              secureTextEntry
+              autoCorrect={false}
+            />
+          </View>
 
-        <View style={styles.footerButtonsContainer}>
-          <TouchableOpacity style={styles.footerButtonTouchable}>
-            <Components.LinearGradient
-              colors={[Colors.rmotrB100, Colors.rmotrB300]}
-              style={styles.footerButton}
-            >
-              <Text style={styles.footerButtonText}>
-                Forgot Password
-              </Text>
-            </Components.LinearGradient>
-          </TouchableOpacity>
+          <View style={styles.mainButtonsContainer}>
+            <TouchableOpacity>
+              <Components.LinearGradient
+                colors={[Colors.success, Colors.success700]}
+                style={styles.mainButton}
+              >
+                <Text style={styles.mainButtonText}>
+                  Log In
+                </Text>
+              </Components.LinearGradient>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.footerButtonTouchable}>
-            <Components.LinearGradient
-              colors={[Colors.rmotrB100, Colors.rmotrB300]}
-              style={styles.footerButton}
-            >
-              <Text style={styles.footerButtonText}>
-                Register
+            <View style={styles.separatorContainer}>
+              <Text style={styles.separator}>
+                or
               </Text>
-            </Components.LinearGradient>
-          </TouchableOpacity>
+            </View>
 
+            <TouchableOpacity onPress={this.props.loginFacebook}>
+              <Components.LinearGradient
+                colors={[Colors.primary, Colors.primary700]}
+                style={styles.mainButton}
+              >
+                <Text style={styles.mainButtonText}>
+                  Log In with Facebook
+                </Text>
+              </Components.LinearGradient>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={this.props.loginGoogle}>
+              <Components.LinearGradient
+                colors={[Colors.danger, Colors.danger700]}
+                style={styles.mainButton}
+              >
+                <Text style={styles.mainButtonText}>
+                  Log In with Google
+                </Text>
+              </Components.LinearGradient>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.footerButtonsContainer}>
+            <TouchableOpacity style={styles.footerButtonTouchable}>
+              <Components.LinearGradient
+                colors={[Colors.rmotrB100, Colors.rmotrB300]}
+                style={styles.footerButton}
+              >
+                <Text style={styles.footerButtonText}>
+                  Forgot Password
+                </Text>
+              </Components.LinearGradient>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.footerButtonTouchable}>
+              <Components.LinearGradient
+                colors={[Colors.rmotrB100, Colors.rmotrB300]}
+                style={styles.footerButton}
+              >
+                <Text style={styles.footerButtonText}>
+                  Register
+                </Text>
+              </Components.LinearGradient>
+            </TouchableOpacity>
+
+          </View>
         </View>
       </Components.LinearGradient>
     );
@@ -144,6 +147,7 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
+    width: Layout.window.width - 40,
     backgroundColor: Colors.rmotrB300,
     height: 40,
     fontSize: 14,

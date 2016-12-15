@@ -36,7 +36,7 @@ class PhotoDetail extends React.Component {
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
-            source={{ uri: this.props.photo.data }}
+            source={{ uri: this.props.photo.url }}
             alt={this.props.photo.caption}
           />
         </View>

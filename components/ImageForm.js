@@ -90,7 +90,7 @@ class ImageForm extends React.Component {
 
           <Image
             style={styles.image}
-            source={{ uri: this.props.photo.data }}
+            source={{ uri: this.props.photo.uri }}
           />
         </View>
       </View>

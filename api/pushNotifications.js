@@ -1,41 +1,48 @@
 import { Permissions, Notifications } from 'exponent';
+import { Alert } from 'react-native';
 
 const PUSH_ENDPOINT = 'https://powerful-sea-10435.herokuapp.com';
 
-const registerForPushNotifications = () => {
+const registerForPushNotifications = async () => {
+  const { status } = await Permissions.getAsync(Permissions.REMOTE_NOTIFICATIONS);
+
+  if (status === 'denied') {
+    Alert.alert(
+      'Push permissions error!',
+      'Please allow this app to use Push notifications from your phone configuration'
+    );
+
+    return 'denied';
+  }
+
   // Android remote notification permissions are granted during the app
   // install, so this will only ask on iOS
-  Permissions.askAsync(Permissions.REMOTE_NOTIFICATIONS)
-  .then((response) => {
-    const { status } = response;
+  const ask = await Permissions.askAsync(Permissions.REMOTE_NOTIFICATIONS);
 
-    // Stop here if the user did not grant permissions
-    if (status !== 'granted') {
-      return;
-    }
+  // Stop here if the user did not grant permissions
+  if (ask.status === 'denied') {
+    return 'denied';
+  }
 
-    sendPushNotification('welcome');
-  });
+  sendPushNotification('welcome');
+  return 'granted';
 };
 
 const photoUploadedPushNotification = () => {
   sendPushNotification('photo');
 };
 
-const sendPushNotification = (type) => {
+const sendPushNotification = async (type) => {
   // Get the token that uniquely identifies this device
-  Notifications.getExponentPushTokenAsync()
-  .then((response) => {
-    const token = response;
+  const token = await Notifications.getExponentPushTokenAsync();
 
-    // POST the token to our backend so we can use it to send pushes from there
-    return fetch(`${PUSH_ENDPOINT}/${type}/${token}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
+  // POST the token to our backend so we can use it to send pushes from there
+  return fetch(`${PUSH_ENDPOINT}/${type}/${token}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
   });
 };
 

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import { View, StyleSheet } from 'react-native';
-import Exponent from 'exponent';
+import { View, Alert, StyleSheet } from 'react-native';
+import Exponent, { Permissions } from 'exponent';
 import { connect } from 'react-redux';
 import { map, includes } from 'lodash';
 import Colors from '../constants/Colors';
@@ -24,36 +24,60 @@ class ProfileScreen extends React.Component {
     this.getLocale = this.getLocale.bind(this);
   }
 
+  componentDidMount() {
+    console.log('profile did mount');
+  }
+
+  componentDidUpdate() {
+    console.log('profile did update');
+  }
+
   getPosition() {
     const options = {
       enableHighAccuracy: true
     };
 
-    Exponent.Location.getCurrentPositionAsync(options)
+    Permissions.getAsync(Permissions.LOCATION)
     .then((response) => {
-      const infoUrl = googleConfig.getInfoUrl(response.coords.latitude, response.coords.longitude);
+      const { status } = response;
 
-      return fetch(infoUrl)
-      .then(resp => resp.json())
-      .then((json) => {
-        const locationInfo = json.results[0];
-        let locality;
-        let country;
+      if (status === 'denied') {
+        Alert.alert('Please allow Location permission from your phone configuration');
+      } else {
+        Permissions.askAsync(Permissions.LOCATION)
+        .then((res) => {
+          const { status } = res;
 
-        map(locationInfo.address_components, (component) => {
-          if (includes(component.types, 'locality')) {
-            locality = component.long_name;
-          } else if (includes(component.types, 'country')) {
-            country = component.long_name;
+          if (status === 'granted') {
+            Exponent.Location.getCurrentPositionAsync(options)
+            .then((response) => {
+              const infoUrl = googleConfig.getInfoUrl(response.coords.latitude, response.coords.longitude);
+
+              return fetch(infoUrl)
+              .then(resp => resp.json())
+              .then((json) => {
+                const locationInfo = json.results[0];
+                let locality;
+                let country;
+
+                map(locationInfo.address_components, (component) => {
+                  if (includes(component.types, 'locality')) {
+                    locality = component.long_name;
+                  } else if (includes(component.types, 'country')) {
+                    country = component.long_name;
+                  }
+                });
+
+                this.setState({
+                  name: `${locality}, ${country}`,
+                  lat: locationInfo.geometry.location.lat,
+                  lng: locationInfo.geometry.location.lng
+                });
+              });
+            });
           }
         });
-
-        this.setState({
-          name: `${locality}, ${country}`,
-          lat: locationInfo.geometry.location.lat,
-          lng: locationInfo.geometry.location.lng
-        });
-      });
+      }
     });
   }
 

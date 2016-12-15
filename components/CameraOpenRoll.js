@@ -17,16 +17,15 @@ class CameraOpenRoll extends React.Component {
     const imagePickerConfig = {
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 1,
-      noData: false
+      quality: 1
     };
 
     await ImagePicker.launchImageLibraryAsync(imagePickerConfig)
     .then((result) => {
       const photo = result;
 
-      if (photo.data) {
-        this.props.setPhotoData(`data:image/png;base64,${photo.data}`);
+      if (photo.uri) {
+        this.props.setPhotoURI(photo.uri);
       }
     });
   }
@@ -51,7 +50,7 @@ class CameraOpenRoll extends React.Component {
 }
 
 CameraOpenRoll.propTypes = {
-  setPhotoData: PropTypes.func
+  setPhotoURI: PropTypes.func
 };
 
 const styles = StyleSheet.create({
@@ -77,9 +76,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const setPhotoData = photoActions.setPhotoData;
+const setPhotoURI = photoActions.setPhotoURI;
 
 export default connect(
   null,
-  { setPhotoData }
+  { setPhotoURI }
 )(CameraOpenRoll);

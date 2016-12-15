@@ -2,7 +2,7 @@ import {
   ADD_PHOTO_REQUEST,
   ADD_PHOTO_SUCCESS,
   ADD_PHOTO_FAILURE,
-  SET_PHOTO_DATA,
+  SET_PHOTO_URI,
   SET_PHOTO_SOURCE,
   SET_PHOTO_CAPTION,
   SET_PHOTO_LOCATION
@@ -30,10 +30,10 @@ const photoReducer = (state = photoInitialState, action) => {
         isUploaded: action.isUploaded,
         isUploading: action.isUploading
       };
-    case SET_PHOTO_DATA:
+    case SET_PHOTO_URI:
       return {
         ...state,
-        data: action.data
+        uri: action.uri
       };
     case SET_PHOTO_SOURCE:
       return {

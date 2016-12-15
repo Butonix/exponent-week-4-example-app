@@ -1,9 +1,11 @@
 import moment from 'moment';
-import Exponent from 'exponent';
+import Exponent, { Permissions } from 'exponent';
+import { Alert } from 'react-native';
 import { map, includes } from 'lodash';
 import pushNotifications from '../../api/pushNotifications';
 import googleConfig from '../../constants/Google';
 import firebaseApp from '../../constants/Firebase';
+import imgurConfig from '../../constants/Imgur';
 import * as actionTypes from '../actionTypes';
 import { photosActions } from './';
 
@@ -27,20 +29,35 @@ export const addPhoto = photo => (dispatch, getState) => {
   delete photoObject.isUploaded;
   delete photoObject.error;
 
-  // Save photo
-  firebaseRef.child('photos').child(photoObject.id)
-  .set(photoObject)
-  .then(() => {
-    pushNotifications.photoUploadedPushNotification();
+  // Upload photo URI
+  uploadPhotoURI(photoObject.uri)
+  .then((url) => {
+    photoObject.url = url;
+    delete photoObject.uri;
 
-    dispatch({
-      type: actionTypes.ADD_PHOTO_SUCCESS,
-      isUploaded: true,
-      isUploading: false
+    // Save photo
+    firebaseRef.child('photos').child(photoObject.id)
+    .set(photoObject)
+    .then(() => {
+      pushNotifications.photoUploadedPushNotification();
+
+      dispatch({
+        type: actionTypes.ADD_PHOTO_SUCCESS,
+        isUploaded: true,
+        isUploading: false
+      });
+
+      dispatch(photosActions.fetchPhotos());
+    }, (err) => {
+      dispatch({
+        type: actionTypes.ADD_PHOTO_FAILURE,
+        isUploaded: false,
+        isUploading: false,
+        error: err
+      });
     });
-
-    dispatch(photosActions.fetchPhotos());
-  }, (err) => {
+  })
+  .catch((err) => {
     dispatch({
       type: actionTypes.ADD_PHOTO_FAILURE,
       isUploaded: false,
@@ -50,10 +67,35 @@ export const addPhoto = photo => (dispatch, getState) => {
   });
 };
 
-export const setPhotoData = data => (dispatch) => {
+const uploadPhotoURI = (uri) => {
+  const c = uri.split('/');
+  const v = c[c.length - 1];
+
+  const formData = new FormData();
+  formData.append('type', 'file');
+  formData.append('image', {
+    uri,
+    name: v,
+    type: 'image/jpeg'
+  });
+
+  return fetch(imgurConfig.url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Client-ID ${imgurConfig.client}`,
+      Accept: '*/*',
+      'Content-Type': 'multipart/form-data'
+    },
+    body: formData
+  })
+  .then(res => res.json())
+  .then(res2 => res2.data.link);
+};
+
+export const setPhotoURI = uri => (dispatch) => {
   dispatch({
-    type: actionTypes.SET_PHOTO_DATA,
-    data
+    type: actionTypes.SET_PHOTO_URI,
+    uri
   });
 
   dispatch(setPhotoLocation());
@@ -78,38 +120,68 @@ export const setPhotoLocation = () => (dispatch) => {
     enableHighAccuracy: true
   };
 
-  Exponent.Location.getCurrentPositionAsync(options)
+  Permissions.getAsync(Permissions.LOCATION)
   .then((response) => {
-    const infoUrl = googleConfig.getInfoUrl(response.coords.latitude, response.coords.longitude);
+    const { status } = response;
 
-    return fetch(infoUrl)
-    .then(resp => resp.json())
-    .then((json) => {
-      const locationInfo = json.results[0];
-      let locality;
-      let country;
-
-      map(locationInfo.address_components, (component) => {
-        if (includes(component.types, 'locality')) {
-          locality = component.long_name;
-        } else if (includes(component.types, 'country')) {
-          country = component.long_name;
-        }
-      });
+    if (status !== 'granted') {
+      Alert.alert('Please allow Location permission from your phone configuration');
 
       dispatch({
         type: actionTypes.SET_PHOTO_LOCATION,
-        locationName: `${locality}, ${country}`,
-        latitude: locationInfo.geometry.location.lat,
-        longitude: locationInfo.geometry.location.lng
+        locationName: 'Unknown',
+        latitude: null,
+        longitude: null
       });
-    });
-  }, () => {
-    dispatch({
-      type: actionTypes.SET_PHOTO_LOCATION,
-      locationName: 'Unknown',
-      latitude: null,
-      longitude: null
-    });
+    } else {
+      Permissions.askAsync(Permissions.LOCATION)
+      .then((res) => {
+        const { status } = res;
+
+        if (status === 'granted') {
+          Exponent.Location.getCurrentPositionAsync(options)
+          .then((response) => {
+            const infoUrl = googleConfig.getInfoUrl(response.coords.latitude, response.coords.longitude);
+
+            return fetch(infoUrl)
+            .then(resp => resp.json())
+            .then((json) => {
+              const locationInfo = json.results[0];
+              let locality;
+              let country;
+
+              map(locationInfo.address_components, (component) => {
+                if (includes(component.types, 'locality')) {
+                  locality = component.long_name;
+                } else if (includes(component.types, 'country')) {
+                  country = component.long_name;
+                }
+              });
+
+              dispatch({
+                type: actionTypes.SET_PHOTO_LOCATION,
+                locationName: `${locality}, ${country}`,
+                latitude: locationInfo.geometry.location.lat,
+                longitude: locationInfo.geometry.location.lng
+              });
+            });
+          }, () => {
+            dispatch({
+              type: actionTypes.SET_PHOTO_LOCATION,
+              locationName: 'Unknown',
+              latitude: null,
+              longitude: null
+            });
+          });
+        } else {
+          dispatch({
+            type: actionTypes.SET_PHOTO_LOCATION,
+            locationName: 'Unknown',
+            latitude: null,
+            longitude: null
+          });
+        }
+      });
+    }
   });
 };

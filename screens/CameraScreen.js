@@ -42,7 +42,7 @@ class CameraScreen extends React.Component {
         throw new Error(`unhandled entry selectedOption: ${this.props.photo.source}`);
     }
 
-    if (this.props.photo.data) {
+    if (this.props.photo.uri) {
       imageForm = <ImageForm photo={this.props.photo} />;
     }
 

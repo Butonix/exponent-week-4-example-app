@@ -5,28 +5,40 @@ import { Components } from 'exponent';
 import Image from 'react-native-image-progress';
 import Colors from '../constants/Colors';
 
-const ProfileCard = props => (
-  <ScrollView>
-    <Components.LinearGradient
-      colors={[Colors.rmotrB300, Colors.rmotrB100]}
-      style={styles.viewStyle}
-    >
-      <Image
-        style={styles.image}
-        source={{ uri: props.auth.user.profilePicture }}
-        alt={'Image'}
-      />
+class ProfileCard extends React.Component {
+  componentDidMount() {
+    console.log('profile did mount');
+  }
 
-      <Text style={styles.username}>
-        {props.auth.user.name}
-      </Text>
+  componentDidUpdate() {
+    console.log('profile did update');
+  }
 
-      <Text style={styles.email}>
-        {props.auth.user.email}
-      </Text>
-    </Components.LinearGradient>
-  </ScrollView>
-);
+  render() {
+    return (
+      <ScrollView>
+        <Components.LinearGradient
+          colors={[Colors.rmotrB300, Colors.rmotrB100]}
+          style={styles.viewStyle}
+        >
+          <Image
+            style={styles.image}
+            source={{ uri: props.auth.user.profilePicture }}
+            alt={'Image'}
+          />
+
+          <Text style={styles.username}>
+            {props.auth.user.name}
+          </Text>
+
+          <Text style={styles.email}>
+            {props.auth.user.email}
+          </Text>
+        </Components.LinearGradient>
+      </ScrollView>
+    );
+  }
+}
 
 ProfileCard.propTypes = {
   auth: PropTypes.object

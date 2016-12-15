@@ -9,7 +9,8 @@ export const photo = {
   username: '',
   source: 'Camera roll',
   caption: '',
-  data: '',
+  uri: '',
+  url: '',
   profilePicture: '',
   location: {
     name: null,
