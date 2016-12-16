@@ -24,14 +24,6 @@ class ProfileScreen extends React.Component {
     this.getLocale = this.getLocale.bind(this);
   }
 
-  componentDidMount() {
-    console.log('profile did mount');
-  }
-
-  componentDidUpdate() {
-    console.log('profile did update');
-  }
-
   getPosition() {
     const options = {
       enableHighAccuracy: true

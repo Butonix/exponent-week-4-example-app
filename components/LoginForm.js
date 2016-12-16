@@ -30,6 +30,7 @@ class LoginForm extends React.Component {
               onChangeText={() => {}}
               value={''}
               autoCorrect={false}
+              underlineColorAndroid={'transparent'}
             />
 
             <TextInput
@@ -40,6 +41,7 @@ class LoginForm extends React.Component {
               value={''}
               secureTextEntry
               autoCorrect={false}
+              underlineColorAndroid={'transparent'}
             />
           </View>
 

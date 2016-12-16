@@ -23,16 +23,16 @@ class ProfileCard extends React.Component {
         >
           <Image
             style={styles.image}
-            source={{ uri: props.auth.user.profilePicture }}
+            source={{ uri: this.props.auth.user.profilePicture }}
             alt={'Image'}
           />
 
           <Text style={styles.username}>
-            {props.auth.user.name}
+            {this.props.auth.user.name}
           </Text>
 
           <Text style={styles.email}>
-            {props.auth.user.email}
+            {this.props.auth.user.email}
           </Text>
         </Components.LinearGradient>
       </ScrollView>
